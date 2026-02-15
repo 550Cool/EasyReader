@@ -68,7 +68,7 @@ Issues and Pull Requests are welcome!
 This project is open-sourced under the MIT License.
 
 ## Author
-# 2Days
+### 2Days
 
 - GitHub: @550Cool
 
