@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">EasyReader</string>
+    <string name="open_file">打开TXT文件</string>
+    <string name="font_size">字体大小</string>
+    <string name="error">错误</string>
+    <string name="file_read_error">无法读取文件，请检查权限或文件格式</string>
+    <string name="permission_denied">需要存储权限才能打开文件</string>
+    <string name="choose_file">选择TXT文件</string>
+    <string name="unknown_file">未知文件</string>
+    <string name="book_removed">已移除</string>
+    <string name="about_version">版本: %s</string>
+    <string name="about_author">作者: Your Name</string>
+    <string name="github_url">https://github.com/yourusername/EasyReader</string>
+</resources>

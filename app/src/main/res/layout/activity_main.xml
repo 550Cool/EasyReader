@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize" 
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_empty_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="点击右下角加号添加电子书"
+        android:textSize="18sp"
+        android:textColor="?android:textColorSecondary"
+        android:visibility="visible"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="?attr/colorPrimary"
+        app:tint="#FFFFFF" />
+
+</RelativeLayout>

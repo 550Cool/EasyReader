@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <!-- 多选模式下选中项背景色（浅灰） -->
+    <color name="selected_item_bg">#80CCCCCC</color>
+    <!-- 书架标题颜色，默认黑色，深色模式下自动使用?android:textColorPrimary -->
+    <color name="book_title_color">#DE000000</color>
+</resources>

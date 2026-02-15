@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true">
+
+    <!-- 使用 NestedScrollView 包裹 TextView 以实现惯性滑动 -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:lineSpacingMultiplier="1.2" />
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- 顶部控制栏 -->
+    <LinearLayout
+        android:id="@+id/top_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="12dp"
+        android:background="#99000000"
+        android:visibility="gone"
+        android:animateLayoutChanges="true">
+
+        <TextView
+            android:id="@+id/tv_book_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+        <ImageButton
+            android:id="@+id/btn_close"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="#FFFFFF"/>
+    </LinearLayout>
+
+    <!-- 底部控制栏 -->
+    <LinearLayout
+        android:id="@+id/bottom_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:background="#99000000"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:animateLayoutChanges="true">
+
+        <!-- 第一行：页码进度、字体大小滑块、深色模式开关 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/tv_page_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1/100"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="8dp"/>
+
+            <SeekBar
+                android:id="@+id/progress_seekbar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:max="1000"
+                android:progressTint="#FFFFFF"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/font_size"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="4dp"/>
+
+            <SeekBar
+                android:id="@+id/seekbar_font"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="30"
+                android:progress="16"
+                android:progressTint="#FFFFFF"/>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_dark_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="深色"
+                android:textColor="?android:attr/textColorPrimary"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+        <!-- 第二行：目录、编码、翻页按钮 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="4dp">
+
+            <Button
+                android:id="@+id/btn_toc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="目录"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#2196F3"
+                android:layout_marginEnd="4dp"/>
+
+            <Button
+                android:id="@+id/btn_encoding"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="编码"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#FF9800"
+                android:layout_marginEnd="4dp"/>
+
+            <ImageButton
+                android:id="@+id/btn_prev"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_media_previous"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:tint="#FFFFFF"
+                android:layout_marginEnd="4dp"/>
+
+            <ImageButton
+                android:id="@+id/btn_next"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_media_next"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:tint="#FFFFFF"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
