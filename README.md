@@ -4,7 +4,7 @@
 
 [中文版](./README_CN.md)
 
-**EasyReader** is a lightweight Android TXT ebook reader that allows you to import TXT files from your device. It features bookshelf management, resume reading, dark mode, chapter detection, encoding selection, and more. Compatible with Android 4.0 (API 16) and above.
+**EasyReader** is a lightweight Android TXT ebook reader that allows you to import TXT files from your device. It features bookshelf management, resume reading, dark mode, chapter detection, encoding selection, and more. Compatible with Android 4.1 (API 16) and above.
 
 ---
 
