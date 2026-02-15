@@ -24,7 +24,6 @@
 
 ## Screenshots
 
-*(Place your screenshots here)*
 
 | Bookshelf | Reader | Table of Contents |
 |:---:|:---:|:---:|
