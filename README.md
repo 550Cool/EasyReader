@@ -12,8 +12,8 @@
 
 - 📚 **Bookshelf Management** – Add, delete books, and batch delete with multi-selection.
 - 🔖 **Resume Reading** – Automatically saves your position and jumps back when reopened.
-- 🌙 **Dark Mode** – Switch between dark and light themes, globally remembered.
-- 📖 **Chapter Detection** – Automatically detects chapters like "第X章" and numeric chapters (filters years 1900-2099).
+- 🌙 **Dark Mode** – Switch between dark and light themes.
+- 📖 **Chapter Detection** – Automatic chapter recognition.
 - 🔤 **Encoding Selection** – Supports UTF-8, GBK, GB2312, BIG5, etc., remembers per-book encoding.
 - 🔎 **Table of Contents** – Jump to any chapter quickly.
 - 📏 **Font Size Adjustment** – Freely adjust text size.
