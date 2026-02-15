@@ -34,7 +34,7 @@
 
 ## Installation & Usage
 
-1. **Download APK**: Get the latest release from [Releases](https://github.com/yourusername/EasyReader/releases) and install.
+1. **Download APK**: Get the latest release from [Releases](https://github.com/550Cool/EasyReader/releases) and install.
 2. **Add Books**: Tap the plus button at the bottom right, choose a TXT file via the system file picker.
 3. **Read**: Tap a book on the bookshelf to start reading.
 4. **Table of Contents**: Tap the screen to show controls, then tap the "Contents" button.
@@ -48,13 +48,13 @@
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/EasyReader.git
-Open the project with Android Studio.
+2. Open the project with Android Studio.
 
-Ensure the SDK versions are set correctly in build.gradle (minSdk 16, targetSdk 33+).
+3. Ensure the SDK versions are set correctly in build.gradle (minSdk 16, targetSdk 33+).
 
-Build and run.
+4. Build and run.
 
-Dependencies
+## Dependencies
 AndroidX AppCompat
 
 Material Components
@@ -68,8 +68,8 @@ License
 This project is open-sourced under the MIT License.
 
 Author
-Your Name
+2Days
 
-GitHub: @yourusername
+GitHub: @550Cool
 
-Email: your.email@example.com
+Email: wohenaighs@163.com
