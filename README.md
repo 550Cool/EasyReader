@@ -55,21 +55,21 @@
 4. Build and run.
 
 ## Dependencies
-AndroidX AppCompat
+- AndroidX AppCompat
 
-Material Components
+- Material Components
 
-RecyclerView
+- RecyclerView
 
-Contributing
+## Contributing
 Issues and Pull Requests are welcome!
 
-License
+## License
 This project is open-sourced under the MIT License.
 
-Author
-2Days
+## Author
+# 2Days
 
-GitHub: @550Cool
+- GitHub: @550Cool
 
-Email: wohenaighs@163.com
+- Email: wohenaighs@163.com
