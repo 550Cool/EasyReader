@@ -25,13 +25,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="8dp"/>
 
     <TextView
         android:id="@+id/tv_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- 新增：数据库版本 -->
+    <TextView
+        android:id="@+id/tv_db_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
         android:layout_marginBottom="24dp"/>
 
     <Button

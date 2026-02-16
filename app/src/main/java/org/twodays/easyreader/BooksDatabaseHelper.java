@@ -12,16 +12,17 @@ import java.util.List;
 public class BooksDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "books.db";
-    private static final int DATABASE_VERSION = 4; // 升级到4
+    public static final int DATABASE_VERSION = 5; // 升级到5，增加font_size列
 
     public static final String TABLE_BOOKS = "books";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_URI = "uri";
-    public static final String COLUMN_SCROLL_PERCENT = "scroll_percent"; // 保留，但不再使用
-    public static final String COLUMN_LAST_PAGE = "last_page";           // 新增
-    public static final String COLUMN_SCROLL_OFFSET = "scroll_offset";   // 新增
-    public static final String COLUMN_ENCODING = "encoding";             // 新增
+    public static final String COLUMN_SCROLL_PERCENT = "scroll_percent";
+    public static final String COLUMN_LAST_PAGE = "last_page";
+    public static final String COLUMN_SCROLL_OFFSET = "scroll_offset";
+    public static final String COLUMN_ENCODING = "encoding";
+    public static final String COLUMN_FONT_SIZE = "font_size"; // 新增
 
     private static final String CREATE_TABLE_BOOKS = "CREATE TABLE " + TABLE_BOOKS + "("
             + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -30,7 +31,8 @@ public class BooksDatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_SCROLL_PERCENT + " REAL DEFAULT 0,"
             + COLUMN_LAST_PAGE + " INTEGER DEFAULT 0,"
             + COLUMN_SCROLL_OFFSET + " INTEGER DEFAULT 0,"
-            + COLUMN_ENCODING + " TEXT DEFAULT 'UTF-8')";
+            + COLUMN_ENCODING + " TEXT DEFAULT 'UTF-8',"
+            + COLUMN_FONT_SIZE + " INTEGER DEFAULT 16)";
 
     public BooksDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -51,14 +53,16 @@ public class BooksDatabaseHelper extends SQLiteOpenHelper {
             // 版本3：未使用，跳过
         }
         if (oldVersion < 4) {
-            // 添加新列
             db.execSQL("ALTER TABLE " + TABLE_BOOKS + " ADD COLUMN " + COLUMN_LAST_PAGE + " INTEGER DEFAULT 0");
             db.execSQL("ALTER TABLE " + TABLE_BOOKS + " ADD COLUMN " + COLUMN_SCROLL_OFFSET + " INTEGER DEFAULT 0");
             db.execSQL("ALTER TABLE " + TABLE_BOOKS + " ADD COLUMN " + COLUMN_ENCODING + " TEXT DEFAULT 'UTF-8'");
         }
+        if (oldVersion < 5) {
+            db.execSQL("ALTER TABLE " + TABLE_BOOKS + " ADD COLUMN " + COLUMN_FONT_SIZE + " INTEGER DEFAULT 16");
+        }
     }
 
-    // 插入书籍（默认编码UTF-8）
+    // 插入书籍（默认编码UTF-8，字号16）
     public long addBook(String name, String uri) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -68,6 +72,7 @@ public class BooksDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_LAST_PAGE, 0);
         values.put(COLUMN_SCROLL_OFFSET, 0);
         values.put(COLUMN_ENCODING, "UTF-8");
+        values.put(COLUMN_FONT_SIZE, 16);
         long id = db.insert(TABLE_BOOKS, null, values);
         db.close();
         return id;
@@ -87,12 +92,14 @@ public class BooksDatabaseHelper extends SQLiteOpenHelper {
         int lastPageIndex = cursor.getColumnIndex(COLUMN_LAST_PAGE);
         int offsetIndex = cursor.getColumnIndex(COLUMN_SCROLL_OFFSET);
         int encodingIndex = cursor.getColumnIndex(COLUMN_ENCODING);
+        int fontSizeIndex = cursor.getColumnIndex(COLUMN_FONT_SIZE);
 
         while (cursor.moveToNext()) {
             float percent = (percentIndex != -1) ? cursor.getFloat(percentIndex) : 0f;
             int lastPage = (lastPageIndex != -1) ? cursor.getInt(lastPageIndex) : 0;
             int offset = (offsetIndex != -1) ? cursor.getInt(offsetIndex) : 0;
             String encoding = (encodingIndex != -1) ? cursor.getString(encodingIndex) : "UTF-8";
+            int fontSize = (fontSizeIndex != -1) ? cursor.getInt(fontSizeIndex) : 16;
             Book book = new Book(
                     cursor.getInt(idIndex),
                     cursor.getString(nameIndex),
@@ -100,7 +107,8 @@ public class BooksDatabaseHelper extends SQLiteOpenHelper {
                     percent,
                     lastPage,
                     offset,
-                    encoding
+                    encoding,
+                    fontSize
             );
             books.add(book);
         }
@@ -123,11 +131,13 @@ public class BooksDatabaseHelper extends SQLiteOpenHelper {
             int lastPageIndex = cursor.getColumnIndex(COLUMN_LAST_PAGE);
             int offsetIndex = cursor.getColumnIndex(COLUMN_SCROLL_OFFSET);
             int encodingIndex = cursor.getColumnIndex(COLUMN_ENCODING);
+            int fontSizeIndex = cursor.getColumnIndex(COLUMN_FONT_SIZE);
 
             float percent = (percentIndex != -1) ? cursor.getFloat(percentIndex) : 0f;
             int lastPage = (lastPageIndex != -1) ? cursor.getInt(lastPageIndex) : 0;
             int offset = (offsetIndex != -1) ? cursor.getInt(offsetIndex) : 0;
             String encoding = (encodingIndex != -1) ? cursor.getString(encodingIndex) : "UTF-8";
+            int fontSize = (fontSizeIndex != -1) ? cursor.getInt(fontSizeIndex) : 16;
 
             book = new Book(
                     cursor.getInt(idIndex),
@@ -136,7 +146,8 @@ public class BooksDatabaseHelper extends SQLiteOpenHelper {
                     percent,
                     lastPage,
                     offset,
-                    encoding
+                    encoding,
+                    fontSize
             );
         }
         cursor.close();
@@ -159,6 +170,15 @@ public class BooksDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_ENCODING, encoding);
+        db.update(TABLE_BOOKS, values, COLUMN_ID + " = ?", new String[]{String.valueOf(bookId)});
+        db.close();
+    }
+
+    // 更新字体大小
+    public void updateFontSize(int bookId, int fontSize) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_FONT_SIZE, fontSize);
         db.update(TABLE_BOOKS, values, COLUMN_ID + " = ?", new String[]{String.valueOf(bookId)});
         db.close();
     }

@@ -12,6 +12,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -57,7 +58,7 @@ public class ReaderActivity extends AppCompatActivity {
     private int currentPageIndex = 0;
     private int totalPages = 0;
 
-    private int currentFontSize = 16;
+    private int currentFontSize = 16;                      // 当前字体大小（从数据库读取）
     private boolean isDarkMode = false;
     private boolean controlsVisible = false;
 
@@ -102,7 +103,7 @@ public class ReaderActivity extends AppCompatActivity {
             return;
         }
 
-        // 获取书籍信息
+        // 获取书籍信息（包含字体大小）
         bookId = getIntent().getIntExtra("book_id", -1);
         if (bookId != -1) {
             BooksDatabaseHelper dbHelper = new BooksDatabaseHelper(this);
@@ -112,7 +113,8 @@ public class ReaderActivity extends AppCompatActivity {
                 savedScrollOffset = book.getScrollOffset();
                 bookName = book.getName();
                 currentEncoding = book.getEncoding();
-                Log.d(TAG, "Loaded: page=" + savedPage + ", offset=" + savedScrollOffset + ", encoding=" + currentEncoding);
+                currentFontSize = book.getFontSize(); // 读取字号
+                Log.d(TAG, "Loaded: page=" + savedPage + ", offset=" + savedScrollOffset + ", encoding=" + currentEncoding + ", fontSize=" + currentFontSize);
             }
             dbHelper.close();
         }
@@ -121,6 +123,9 @@ public class ReaderActivity extends AppCompatActivity {
             if (bookName == null) bookName = getString(R.string.unknown_file);
         }
         tvBookTitle.setText(bookName);
+
+        // 设置 SeekBar 初始值
+        seekBarFont.setProgress(currentFontSize - 10); // 因为进度0对应10
 
         // 使用保存的编码加载文件
         loadFileWithEncoding(bookUri, currentEncoding);
@@ -131,11 +136,16 @@ public class ReaderActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 currentFontSize = progress + 10;
                 applyTextStyle();
+                // 保存字号到数据库
+                if (bookId != -1) {
+                    BooksDatabaseHelper dbHelper = new BooksDatabaseHelper(ReaderActivity.this);
+                    dbHelper.updateFontSize(bookId, currentFontSize);
+                    dbHelper.close();
+                }
             }
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override public void onStopTrackingTouch(SeekBar seekBar) {}
         });
-        seekBarFont.setProgress(6); // 16
 
         // 深色模式切换（仅影响当前阅读界面）
         switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -179,6 +189,26 @@ public class ReaderActivity extends AppCompatActivity {
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+    }
+
+    /**
+     * 音量键处理：控制栏可见时调节音量，隐藏时滚动屏幕
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // 如果控制栏可见，则让系统处理音量键（即调节音量）
+        if (controlsVisible) {
+            return super.onKeyDown(keyCode, event);
+        }
+        // 控制栏隐藏时，音量键用于滚动
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            scrollView.smoothScrollBy(0, -scrollView.getHeight() / 2);
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            scrollView.smoothScrollBy(0, scrollView.getHeight() / 2);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void initViews() {
