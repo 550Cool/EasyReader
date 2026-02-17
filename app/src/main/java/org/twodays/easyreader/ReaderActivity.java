@@ -316,7 +316,6 @@ public class ReaderActivity extends AppCompatActivity {
         Pattern chinesePattern = Pattern.compile(
                 "^(\\s*第[一二三四五六七八九十百千万0-9]+[章节])",
                 Pattern.MULTILINE);
-        // 数字章节：至少两位数字（支持01、001等）
         Pattern digitPattern = Pattern.compile(
                 "^(\\s*[0-9]{2,})",
                 Pattern.MULTILINE);
@@ -356,13 +355,22 @@ public class ReaderActivity extends AppCompatActivity {
             }
         });
 
+        // 添加“前言”章节
+        List<Chapter> finalChapters = new ArrayList<>();
+        if (!tempChapters.isEmpty() && tempChapters.get(0).getStartIndex() > 0) {
+            // 创建前言章节，起始索引为0
+            Chapter preface = new Chapter("前言", 0, "");
+            finalChapters.add(preface);
+        }
+        finalChapters.addAll(tempChapters);
+
         // 重新生成 anchorId
-        for (int i = 0; i < tempChapters.size(); i++) {
-            Chapter ch = tempChapters.get(i);
+        for (int i = 0; i < finalChapters.size(); i++) {
+            Chapter ch = finalChapters.get(i);
             chapters.add(new Chapter(ch.getTitle(), ch.getStartIndex(), "chapter_" + i));
         }
 
-        Log.d(TAG, "Parsed " + chapters.size() + " chapters");
+        Log.d(TAG, "Parsed " + chapters.size() + " chapters (including preface)");
     }
 
     /**

@@ -15,7 +15,7 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        String versionName = "1.0.2";
+        String versionName = "1.0.5";
         String author = "2Days";
         String githubUrl = "https://github.com/550Cool/EasyReader";
 

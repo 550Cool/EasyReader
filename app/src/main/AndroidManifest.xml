@@ -20,6 +20,10 @@
         <activity android:name=".ReaderActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false" />
+        <activity
+            android:name=".FilePickerActivity"
+            android:exported="false"
+            android:label="选择文件" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

@@ -2,6 +2,7 @@ package org.twodays.easyreader;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -138,6 +139,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openFileChooser() {
+        // 检测是否为 Wear OS
+        PackageManager pm = getPackageManager();
+        boolean isWatch = pm.hasSystemFeature(PackageManager.FEATURE_WATCH);
+
+        if (isWatch) {
+            // 启动自定义文件选择器
+            Intent intent = new Intent(this, FilePickerActivity.class);
+            startActivityForResult(intent, REQUEST_CODE_PICK_FILE);
+            return;
+        }
+
+        // 非手表设备：使用系统文件选择器
         Intent intent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
@@ -162,12 +175,13 @@ public class MainActivity extends AppCompatActivity {
             if (data != null && data.getData() != null) {
                 Uri uri = data.getData();
 
+                // 尝试获取持久化权限（仅对系统文件选择器有效，自定义选择器会通过 FileProvider 授权）
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     try {
                         getContentResolver().takePersistableUriPermission(uri,
                                 Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     } catch (SecurityException e) {
-                        e.printStackTrace();
+                        // 忽略，可能是 FileProvider 返回的 URI 不支持持久化
                     }
                 }
 
